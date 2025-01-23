@@ -6,14 +6,15 @@ st.title('Elefant Carpaccio')
 # Input
 price = st.number_input('Price', min_value=0.0, value=0.0)
 n_items = st.number_input('Number of items', min_value=0, value=0)
-country = st.text_input('Country', 'TX')
-
-total_price = price * n_items
-st.write(f'Price: {total_price:.2f} $')
 
 # Read discount and tax CSVs
 discount_df = pd.read_csv('discounts.csv', index_col='order_value')
 taxes_df = pd.read_csv('taxes.csv', index_col='state')
+
+country =st.selectbox('Taxes', taxes_df.index)
+
+total_price = price * n_items
+st.markdown(f'## Price: {total_price:.2f} $')
 
 # 1. Discount Calculation
 # Check if total price is above the discount thresholds
@@ -35,8 +36,7 @@ st.write(f'Discount: {discount_rate:.2f} %')
 st.write(f'Discount Value: {discount_value:.2f} $')
 st.write(f'Total after Discount: {total_after_discount:.2f} $')
 
-# 2. Taxes Calculation
-# Check if country exists in the taxes DataFrame
+
 if country in taxes_df.index:
     tax_rate = taxes_df.loc[country, "tax_rate"]
     tax_value = total_after_discount * tax_rate
@@ -47,9 +47,4 @@ if country in taxes_df.index:
 else:
     st.write(f'No tax data available for country {country}')
 
-# Optionally, display the discount and tax tables
-discount_df["discount_rate"] = discount_df["discount_rate"].apply(lambda x: f"{(x*100):.2f} %")
-taxes_df["tax_rate"] = taxes_df["tax_rate"].apply(lambda x: f"{(x*100):.2f} %")
 
-st.write(discount_df)
-st.write(taxes_df)
