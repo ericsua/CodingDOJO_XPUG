@@ -4,14 +4,19 @@ import pandas as pd
 st.title('Elefant Carpaccio')
 
 # Input
-price = st.number_input('Price', min_value=0.0, value=0.0)
-n_items = st.number_input('Number of items', min_value=0, value=0)
+col1, col2 = st.columns(2)
+with col1:
+    price = st.number_input('Price', min_value=0.0, value=0.0)
+with col2:
+    n_items = st.number_input('Number of items', min_value=0, value=0)
 
 # Read discount and tax CSVs
 discount_df = pd.read_csv('discounts.csv', index_col='order_value')
 taxes_df = pd.read_csv('taxes.csv', index_col='state')
 
-country =st.selectbox('Taxes', taxes_df.index)
+col1, col2 = st.columns(2)
+with col1:
+    country =st.selectbox('Taxes', taxes_df.index)
 
 total_price = price * n_items
 st.markdown(f'## Price: {total_price:.2f} $')
