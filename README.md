@@ -41,7 +41,7 @@ cd CodingDOJO_XPUG
 pip install -r requirements.txt
 
 # Run the Streamlit app
-streamlit run app.py
+streamlit run Homepage.py
 ```
 
 ## 📌 User Stories Example
